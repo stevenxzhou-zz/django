@@ -1,0 +1,64 @@
+from django.db import models
+
+class MainProductCategory(models.Model):
+    MainCategoryName=models.CharField(max_length=45, primary_key=True)
+    class Meta:
+        verbose_name="MainProductCategory"
+    def __unicode__(self):
+        return self.MainCategoryName
+
+
+
+class SubProductCategory(models.Model):
+    SubCategoryName=models.CharField(max_length=45, primary_key=True)
+    MainCategoryName=models.ForeignKey(MainProductCategory, to_field='MainCategoryName')
+    class Meta:
+        verbose_name="SubProductCategory"
+    def __unicode__(self):
+        return self.SubCategoryName
+
+class Stores(models.Model):
+    StoreName=models.CharField(max_length=45, primary_key=True)
+    StoreLink=models.CharField(max_length=110)
+    StoreLogo=models.BinaryField()
+    class Meta:
+        verbose_name="Stores"
+    def __unicode__(self):
+        return self.StoreName
+
+class User(models.Model):
+    Email=models.CharField(max_length=45,primary_key=True)
+    Name=models.CharField(max_length=45)
+    Password=models.CharField(max_length=45)
+    Admin=models.BooleanField()
+    class Meta:
+        verbose_name="Users"
+    def __unicode__(self):
+        return self.Name
+
+class Products(models.Model):
+    ProductID=models.IntegerField(max_length=10, primary_key=True)
+    ProductName=models.CharField(max_length=110)
+    ListPrice=models.DecimalField(decimal_places=2, max_digits=5)
+    CurrentPrice=models.DecimalField(decimal_places=2, max_digits=5)
+    ProductDescription=models.CharField(max_length=300)
+    AddDate=models.DateTimeField()
+    ExpirationDate=models.DateTimeField()
+    Hits=models.IntegerField(max_length=10)
+    Image=models.BinaryField()
+    StoreName=models.ForeignKey(Stores, to_field='StoreName')
+    SubCategoryName=models.ForeignKey(SubProductCategory, to_field='SubCategoryName')
+    class Meta:
+        verbose_name="Products"
+    def __unicode__(self):
+        return self.ProductName
+
+class Favorites(models.Model):
+    Email=models.ForeignKey(User, to_field='Email')
+    ProductID=models.ForeignKey(Products, to_field='ProductID')
+    StoreName=models.ForeignKey(Stores, to_field='StoreName')
+    AddDate=models.DateTimeField()
+    class Meta:
+        verbose_name="Favorites"
+    def __unicode__(self):
+        return unicode(self.Email)

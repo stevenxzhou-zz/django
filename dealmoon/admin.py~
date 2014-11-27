@@ -1,0 +1,20 @@
+from django.contrib import admin
+from dealmoon.models import MainProductCategory
+from dealmoon.models import SubProductCategory
+from dealmoon.models import Product
+from dealmoon.models import User
+from dealmoon.models import Store
+from dealmoon.models import Favorite
+
+admin.site.register(MainProductCategory)
+admin.site.register(SubProductCategory)
+admin.site.register(Product)
+admin.site.register(User)
+admin.site.register(Store)
+admin.site.register(Favorite)
+
+class MainProductCategoryAdmin(admin.ModelAdmin):
+    list_display=('MainCategoryName')
+
+# Register your models here.
+
